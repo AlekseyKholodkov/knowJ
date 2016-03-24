@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="knowJ:war exploded">
+    <output-path>$PROJECT_DIR$/target/knowJ</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="knowJ" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.17" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="D:\Google Drive\knowJ\target/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="knowJ/web/Web" />
+    </root>
+  </artifact>
+</component>
