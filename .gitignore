@@ -1,0 +1,10 @@
+.idea/
+out/
+target/
+iDo.iml
+
+*.properties
+*.class
+*.jar
+*.war
+*.ear
