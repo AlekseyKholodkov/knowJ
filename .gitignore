@@ -1,7 +1,7 @@
 .idea/
 out/
 target/
-iDo.iml
+knowJ.iml
 
 *.properties
 *.class
