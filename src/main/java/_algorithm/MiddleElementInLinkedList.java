@@ -6,10 +6,8 @@ import java.util.LinkedList;
 public class MiddleElementInLinkedList {
 
     public static int findMiddleElement(LinkedList linkedList) {
-
         int middle = 0;
         int head = 0;
-
         Iterator iterator = linkedList.iterator();
         while (iterator.hasNext()){
             head++;
@@ -18,7 +16,6 @@ public class MiddleElementInLinkedList {
             }
             iterator.next();
         }
-
         return middle;
     }
 }
