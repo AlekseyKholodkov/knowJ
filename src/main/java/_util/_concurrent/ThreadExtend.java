@@ -1,4 +1,4 @@
-package _concurrency;
+package _util._concurrent;
 
 public class ThreadExtend extends Thread { // or implements Runnable
     @Override
