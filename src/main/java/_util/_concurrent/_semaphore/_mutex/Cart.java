@@ -1,4 +1,4 @@
-package _util._concurrent._semaphore;
+package _util._concurrent._semaphore._mutex;
 
 public class Cart {
     private static int weight = 0;
