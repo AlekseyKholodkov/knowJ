@@ -14,8 +14,4 @@ public class Cart {
     public static int getWeight() {
         return weight;
     }
-
-    public static boolean isEmpty() {
-        return weight == 0;
-    }
 }
