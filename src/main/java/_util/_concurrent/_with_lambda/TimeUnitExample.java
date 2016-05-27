@@ -2,7 +2,7 @@ package _util._concurrent._with_lambda;
 
 import java.util.concurrent.TimeUnit;
 
-public class TimeUnitUse {
+public class TimeUnitExample {
     public static void main(String[] args) {
         Runnable runnable = () -> {
             try {

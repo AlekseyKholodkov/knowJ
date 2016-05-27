@@ -2,7 +2,7 @@ package _util._concurrent._with_lambda;
 
 import java.util.concurrent.*;
 
-public class ExecutorsUse {
+public class ExecutorServiceExample {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         Callable<Integer> callableInt = () -> {
             TimeUnit.SECONDS.sleep(1);
