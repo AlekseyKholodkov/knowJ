@@ -19,6 +19,5 @@ public class TimeUnitExample {
         thread.start();
 
         runnable.run();
-
     }
 }
