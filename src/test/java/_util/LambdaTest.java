@@ -1,11 +1,10 @@
 package _util;
 
+import _java8.Lambda;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.testng.Assert.*;
 
 public class LambdaTest {
     private static List<String> literals = Arrays.asList("A", "B", "C");
