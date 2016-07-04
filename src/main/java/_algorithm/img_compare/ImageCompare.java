@@ -108,15 +108,10 @@ public class ImageCompare {
             throw new RuntimeException("Images have different dimensions");
         }
 
-        boolean inDiffSegment = false;
-
         BufferedImage resultImg = img2;
         Graphics graphics = resultImg.createGraphics();
         graphics.setColor(Color.RED);
 
-        Comparator<Point> pointComparator = new PointComparator();
-        NavigableSet<Point> points = new TreeSet<>(pointComparator);
-        
         int rows = img2.getHeight();
         int columns = img2.getWidth();
         int[][] diffPixels = new int[rows][columns];
@@ -125,13 +120,7 @@ public class ImageCompare {
                 int colorPix1 = img1.getRGB(x, y);
                 int colorPix2 = img2.getRGB(x, y);
                 if (diffInPercent(colorPix1, colorPix2) > MAX_DIFF_IN_PERCENT) {
-                    if (!inDiffSegment) {
-                        diffPixels[y][x] = 1; // start different pixels segment
-                        inDiffSegment = true;
-                    }
-                } else if (inDiffSegment) {
-                    diffPixels[y][x-1] = 2; // end different pixels segment
-                    inDiffSegment = false;
+                    diffPixels[y][x] = 1; // start different pixels segment
                 }
             }
         }
