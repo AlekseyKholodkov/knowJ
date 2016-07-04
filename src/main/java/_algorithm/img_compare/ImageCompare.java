@@ -107,6 +107,7 @@ public class ImageCompare {
         if (img1.getWidth() != img2.getWidth() || img1.getHeight() != img2.getHeight()) {
             throw new RuntimeException("Images have different dimensions");
         }
+        List<Rectangle> rectangles = null;
 
         BufferedImage resultImg = img2;
         Graphics graphics = resultImg.createGraphics();
@@ -124,6 +125,8 @@ public class ImageCompare {
                 }
             }
         }
+
+        rectangles = computeDiffPlaces(diffPixels);
 
         return resultImg;
     }
