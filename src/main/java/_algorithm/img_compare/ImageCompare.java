@@ -49,26 +49,17 @@ public class ImageCompare {
     }
 
     public List<Rectangle> computeDiffPlaces(int[][] array2D) {
-        boolean findFirstElem = false;
-        int upperLeftX = Integer.MAX_VALUE;
-        int upperLeftY = Integer.MAX_VALUE;
-        int width = -1;
-        int height = -1;
-
-        y: for (int y = 0; y < array2D.length; y++) {
-            x: for (int x = 0; x < array2D[y].length; x++) {
+        Rectangle rectangle = null;
+        List<Rectangle> rectangles = new ArrayList<>();
+        for (int y = 0; y < array2D.length; y++) {
+            for (int x = 0; x < array2D[y].length; x++) {
                 if (array2D[y][x] == 1) {
-
-                    upperLeftX = Math.min(x, upperLeftX);
-                    upperLeftY = Math.min(y, upperLeftY);
-                    findFirstElem = true;
-                } else if (findFirstElem && array2D[y][x] == 0) {
-
+                    rectangle = computeRectangle(array2D, x, y);
+                    rectangles.add(rectangle);
                 }
             }
         }
-
-        return null;
+        return rectangles;
     }
 
     /**
@@ -78,7 +69,7 @@ public class ImageCompare {
      * @return rectangle that mark different place
      */
     public Rectangle computeRectangle(int[][] array2D, int startX, int startY) {
-        int x0 = startX == 0 ? 0 : startX - 1; // TODO: can occur ArrayIndexOutOfBoundsException
+        int x0 = startX == 0 ? 0 : startX - 1;
         int x1 = array2D[startY].length;
         int maxX = 0;
         int upperLeftX = Integer.MAX_VALUE;
