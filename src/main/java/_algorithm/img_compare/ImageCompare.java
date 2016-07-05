@@ -11,7 +11,6 @@ import java.util.List;
 
 public class ImageCompare {
     private final float MAX_DIFF_IN_PERCENT = 10.0f;
-    private String path;
 
     public static void main(String[] args) {
         String path1 = "D:\\compareImg\\image1.png";
@@ -130,9 +129,50 @@ public class ImageCompare {
      * @param rectangles for union
      * @return united rectangles
      */
-    public List<Rectangle> unionRectangles(List<Rectangle> rectangles) {
-        // TODO: create method for union rectangles with near coordinates
-        return null;
+    public List<Rectangle> unionRectangles(List<Rectangle> rectangles) { // TODO: create method for union rectangles with near coordinates
+        if (rectangles == null) return null;
+        if (rectangles.size() <= 1 ) return rectangles;
+
+        List<Rectangle> resultRectangles = new ArrayList<>();
+        Rectangle resRect = rectangles.get(0);
+
+        Iterator<Rectangle> inputRectIter = rectangles.iterator();
+        Rectangle inputRect = null;
+        while (inputRectIter.hasNext()) {
+            inputRect = inputRectIter.next();
+            if (rectangleNear(resRect, inputRect)) {
+                resRect = unionTwoRectangle(resRect, inputRect);
+                inputRectIter.remove();
+            }
+        }
+        resultRectangles.add(resRect);
+        return resultRectangles;
+    }
+
+    public boolean rectangleNear(Rectangle rec1, Rectangle rec2) {
+        if (rec1 == null || rec2 == null) return false;
+        if (Math.abs(rec1.x - rec2.x) < 50 && Math.abs(rec1.y - rec2.y) < 50) { // // TODO: improve
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param rec1 first rectangle for union
+     * @param rec2 second rectangle for union
+     * @return rectangle that outlined input rectangles
+     */
+    public Rectangle unionTwoRectangle(Rectangle rec1, Rectangle rec2) {
+        if (rec1 == null && rec2 == null) return null;
+        if (rec1 == null) return rec2;
+
+        int upperLeftX = Math.min(rec1.x, rec2.x);
+        int upperLeftY = Math.min(rec1.y, rec2.y);
+        int bottomRightX = Math.max(rec1.x + rec1.width, rec2.x + rec1.width);
+        int bottomRightY = Math.max(rec1.y + rec1.height, rec2.y + rec1.height);
+        int width = bottomRightX - upperLeftX;
+        int height = bottomRightY - upperLeftY;
+        return new Rectangle(upperLeftX, upperLeftY, width, height);
     }
 
     /**
