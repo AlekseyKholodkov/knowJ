@@ -14,17 +14,22 @@ public class ImageCompare {
     private String path;
 
     public static void main(String[] args) {
-        String path1 = "D:\\compareImg\\image1.png";
-        String path2 = "D:\\compareImg\\image2.png";
+        String path1 = args[0] != null ? args[0] : "D:\\compareImg\\image1.png";
+        String path2 = args[1] != null ? args[1] : "D:\\compareImg\\image2.png";
         ImageCompare imageCompare = new ImageCompare();
         try {
             BufferedImage img1 = imageCompare.readImage(path1);
             BufferedImage img2 = imageCompare.readImage(path2);
             BufferedImage image = imageCompare.compareImage(img1, img2);
-            imageCompare.writeImage(image, "D:\\compareImg\\result.jpg");
+            imageCompare.writeImage(image, imageCompare.getDirectory(path1) + "result.png");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getDirectory(String path) {
+        int lastSlashIndex = path.lastIndexOf("\\") + 1;
+        return path.substring(0, lastSlashIndex);
     }
 
     /**
