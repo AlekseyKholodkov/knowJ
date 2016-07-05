@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ImageCompare {
     private final float MAX_DIFF_IN_PERCENT = 10.0f;
+    private String path;
 
     public static void main(String[] args) {
         String path1 = "D:\\compareImg\\image1.png";
@@ -20,18 +21,28 @@ public class ImageCompare {
             BufferedImage img1 = imageCompare.readImage(path1);
             BufferedImage img2 = imageCompare.readImage(path2);
             BufferedImage image = imageCompare.compareImage(img1, img2);
-            imageCompare.writeImage(image);
+            imageCompare.writeImage(image, "D:\\compareImg\\result.jpg");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * @param path image file path
+     * @return image
+     * @throws IOException
+     */
     public BufferedImage readImage(String path) throws IOException {
         return ImageIO.read(new File(path));
     }
 
-    public void writeImage(BufferedImage image) throws IOException {
-        File outputFile = new File("D:\\compareImg\\result.jpg");
+    /**
+     * @param image for write
+     * @param path file path
+     * @throws IOException
+     */
+    public void writeImage(BufferedImage image, String path) throws IOException {
+        File outputFile = new File(path);
         ImageIO.write(image, "jpg", outputFile);
     }
 
@@ -48,6 +59,10 @@ public class ImageCompare {
         return Math.abs(((maxInt - minInt) * 100f) / minInt);
     }
 
+    /**
+     * @param array2D of with values 0 or 1, where 1 mark different pixels
+     * @return rectangle that outlined difference places
+     */
     public List<Rectangle> computeDiffPlaces(int[][] array2D) {
         Rectangle rectangle = null;
         List<Rectangle> rectangles = new ArrayList<>();
@@ -94,6 +109,11 @@ public class ImageCompare {
         return new Rectangle(upperLeftX, upperLeftY, width, height);
     }
 
+    /**
+     * @param img1 first image for compare
+     * @param img2 second image for compare
+     * @return image with differences outlined with red rectangles
+     */
     public BufferedImage compareImage(BufferedImage img1, BufferedImage img2) {
         if (img1.getWidth() != img2.getWidth() || img1.getHeight() != img2.getHeight()) {
             throw new RuntimeException("Images have different dimensions");
@@ -118,6 +138,9 @@ public class ImageCompare {
         }
 
         rectangles = computeDiffPlaces(diffPixels);
+        for (Rectangle rectangle : rectangles) {
+            graphics.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+        }
 
         return resultImg;
     }
