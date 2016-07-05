@@ -77,11 +77,11 @@ public class ImageCompareTest {
     }
     /** computeRectangle tests END */
 
-    /** computeRectangle tests START */
+    /** computeDiffPlaces tests START */
     @Test
     public void computeDiffPlaces_validArray_computeRectangles() {
         List<Rectangle> rectangles = Arrays.asList(new Rectangle(8, 1, 3, 2), new Rectangle(1, 2, 3, 2));
         assertEquals(imageCompare.computeDiffPlaces(array2DTwoRect), rectangles);
     }
-    /** computeRectangle tests END */
+    /** computeDiffPlaces tests END */
 }
