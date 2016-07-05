@@ -4,12 +4,15 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 import static org.testng.Assert.*;
 
 public class ImageCompareTest {
     private ImageCompare imageCompare;
-    private int[][] array2D;
+    private int[][] array2DSingleRect;
+    private int[][] array2DTwoRect;
 
     @BeforeClass
     public void createInstance() {
@@ -18,16 +21,16 @@ public class ImageCompareTest {
 
     @BeforeClass
     public void fillArray2D() {
-//        array2D = new int[][] {
-//                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
-//                {0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0},
-//                {0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
-//                {0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-//        };
+        array2DTwoRect = new int[][] {
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0},
+                {0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0},
+                {0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+        };
 
-        array2D = new int[][] {
+        array2DSingleRect = new int[][] {
                 {0, 0, 0, 1},
                 {0, 0, 1, 0},
                 {0, 1, 0, 0},
@@ -70,7 +73,15 @@ public class ImageCompareTest {
     /** computeRectangle tests START */
     @Test
     public void computeRectangle_validArray_computeRectangle() {
-        assertEquals(imageCompare.computeRectangle(array2D, 0, 0), new Rectangle(0, 0, 3, 3));
+        assertEquals(imageCompare.computeRectangle(array2DSingleRect, 0, 0), new Rectangle(0, 0, 3, 3));
+    }
+    /** computeRectangle tests END */
+
+    /** computeRectangle tests START */
+    @Test
+    public void computeDiffPlaces_validArray_computeRectangles() {
+        List<Rectangle> rectangles = Arrays.asList(new Rectangle(8, 1, 3, 2), new Rectangle(1, 2, 3, 2));
+        assertEquals(imageCompare.computeDiffPlaces(array2DTwoRect), rectangles);
     }
     /** computeRectangle tests END */
 }
