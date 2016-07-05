@@ -7,10 +7,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 
 public class ImageCompare {
     private final float MAX_DIFF_IN_PERCENT = 10.0f;
+    private final int ALLOWABLE_DIFF_IN_PIXEL = 200;
 
     public static void main(String[] args) {
         String path1 = "D:\\compareImg\\image1.png";
@@ -38,6 +38,11 @@ public class ImageCompare {
         }
     }
 
+    /**
+     * Trim path to last slash <code>"\"</code>
+     * @param path
+     * @return
+     */
     public String getDirectory(String path) {
         int lastSlashIndex = path.lastIndexOf("\\") + 1;
         return path.substring(0, lastSlashIndex);
@@ -79,9 +84,9 @@ public class ImageCompare {
      * @param array2D of with values 0 or 1, where 1 mark different pixels
      * @return rectangle that outlined difference places
      */
-    public List<Rectangle> computeDiffPlaces(int[][] array2D) {
+    public Set<Rectangle> computeDiffPlaces(int[][] array2D) {
         Rectangle rectangle = null;
-        List<Rectangle> rectangles = new ArrayList<>();
+        Set<Rectangle> rectangles = new TreeSet<>(new RectangleComparator());
         for (int y = 0; y < array2D.length; y++) {
             for (int x = 0; x < array2D[y].length; x++) {
                 if (array2D[y][x] == 1) {
@@ -90,6 +95,8 @@ public class ImageCompare {
                 }
             }
         }
+
+        rectangles = unionRectangles(rectangles);
         return rectangles;
     }
 
@@ -129,29 +136,38 @@ public class ImageCompare {
      * @param rectangles for union
      * @return united rectangles
      */
-    public List<Rectangle> unionRectangles(List<Rectangle> rectangles) { // TODO: create method for union rectangles with near coordinates
+    public Set<Rectangle> unionRectangles(Set<Rectangle> rectangles) { // TODO: create method for union rectangles with near coordinates
         if (rectangles == null) return null;
         if (rectangles.size() <= 1 ) return rectangles;
 
-        List<Rectangle> resultRectangles = new ArrayList<>();
-        Rectangle resRect = rectangles.get(0);
+        NavigableSet<Rectangle> resultRectangles = new TreeSet<>(new RectangleComparator());
+        NavigableSet<Rectangle> inputRectangles = new TreeSet<>(new RectangleComparator());
+        inputRectangles.addAll(rectangles);
 
-        Iterator<Rectangle> inputRectIter = rectangles.iterator();
+        Rectangle resRect = inputRectangles.first();
+        Iterator<Rectangle> inputRectIter = inputRectangles.iterator();
         Rectangle inputRect = null;
         while (inputRectIter.hasNext()) {
             inputRect = inputRectIter.next();
             if (rectangleNear(resRect, inputRect)) {
                 resRect = unionTwoRectangle(resRect, inputRect);
-                inputRectIter.remove();
+            } else {
+                resultRectangles.add(resRect);
+                resRect = inputRect;
             }
         }
         resultRectangles.add(resRect);
         return resultRectangles;
     }
 
+    /**
+     * @param rec1 first rectangle for check
+     * @param rec2 second rectangle for check
+     * @return is rectangles near
+     */
     public boolean rectangleNear(Rectangle rec1, Rectangle rec2) {
         if (rec1 == null || rec2 == null) return false;
-        if (Math.abs(rec1.x - rec2.x) < 50 && Math.abs(rec1.y - rec2.y) < 50) { // // TODO: improve
+        if (Math.abs(rec1.x - rec2.x) < ALLOWABLE_DIFF_IN_PIXEL && Math.abs(rec1.y - rec2.y) < ALLOWABLE_DIFF_IN_PIXEL) { // TODO: take into account height and width
             return true;
         }
         return false;
@@ -168,8 +184,8 @@ public class ImageCompare {
 
         int upperLeftX = Math.min(rec1.x, rec2.x);
         int upperLeftY = Math.min(rec1.y, rec2.y);
-        int bottomRightX = Math.max(rec1.x + rec1.width, rec2.x + rec1.width);
-        int bottomRightY = Math.max(rec1.y + rec1.height, rec2.y + rec1.height);
+        int bottomRightX = Math.max(rec1.x + rec1.width, rec2.x + rec2.width);
+        int bottomRightY = Math.max(rec1.y + rec1.height, rec2.y + rec2.height);
         int width = bottomRightX - upperLeftX;
         int height = bottomRightY - upperLeftY;
         return new Rectangle(upperLeftX, upperLeftY, width, height);
@@ -184,7 +200,7 @@ public class ImageCompare {
         if (img1.getWidth() != img2.getWidth() || img1.getHeight() != img2.getHeight()) {
             throw new RuntimeException("Images have different dimensions");
         }
-        List<Rectangle> rectangles = null;
+        Set<Rectangle> rectangles = null;
 
         BufferedImage resultImg = img2;
         Graphics graphics = resultImg.createGraphics();
