@@ -110,6 +110,15 @@ public class ImageCompare {
     }
 
     /**
+     * @param rectangles for union
+     * @return united rectangles
+     */
+    public List<Rectangle> unionRectangles(List<Rectangle> rectangles) {
+        // TODO: create method for union rectangles with near coordinates
+        return null;
+    }
+
+    /**
      * @param img1 first image for compare
      * @param img2 second image for compare
      * @return image with differences outlined with red rectangles
