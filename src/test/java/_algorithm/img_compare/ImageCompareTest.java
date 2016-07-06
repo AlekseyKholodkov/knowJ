@@ -5,14 +5,13 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
 public class ImageCompareTest {
     private ImageCompare imageCompare;
     private int[][] array2DSingleRect;
-    private int[][] array2DTwoRect;
+    private int[][] array2DTwoNearRect;
 
     @BeforeClass
     public void createInstance() {
@@ -21,7 +20,7 @@ public class ImageCompareTest {
 
     @BeforeClass
     public void fillArray2D() {
-        array2DTwoRect = new int[][] {
+        array2DTwoNearRect = new int[][] {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
                 {0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0},
@@ -79,9 +78,10 @@ public class ImageCompareTest {
 
     /** computeDiffPlaces tests START */
     @Test
-    public void computeDiffPlaces_validArray_computeRectangles() {
-        List<Rectangle> rectangles = Arrays.asList(new Rectangle(8, 1, 3, 2), new Rectangle(1, 2, 3, 2));
-        assertEquals(imageCompare.computeDiffPlaces(array2DTwoRect), rectangles);
+    public void computeDiffPlaces_validArray_computeUnionRectangle() {
+        Set<Rectangle> rectangleSet = new HashSet<>();
+        rectangleSet.add(new Rectangle(1, 1, 10, 3));
+        assertEquals(imageCompare.computeDiffPlaces(array2DTwoNearRect), rectangleSet);
     }
     /** computeDiffPlaces tests END */
 }
