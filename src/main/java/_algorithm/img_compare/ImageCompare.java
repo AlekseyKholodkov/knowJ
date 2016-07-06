@@ -136,7 +136,7 @@ public class ImageCompare {
      * @param rectangles for union
      * @return united rectangles
      */
-    public Set<Rectangle> unionRectangles(Set<Rectangle> rectangles) { // TODO: create method for union rectangles with near coordinates
+    public Set<Rectangle> unionRectangles(Set<Rectangle> rectangles) {
         if (rectangles == null) return null;
         if (rectangles.size() <= 1 ) return rectangles;
 
