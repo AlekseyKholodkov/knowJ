@@ -13,8 +13,8 @@ public class ImageCompare {
     private final int ALLOWABLE_DIFF_IN_PIXEL = 200;
 
     public static void main(String[] args) {
-        String path1 = "D:\\compareImg\\image1.png";
-        String path2 = "D:\\compareImg\\image2.png";
+        String path1 = "C:\\imgCompare\\image1.png";
+        String path2 = "C:\\imgCompare\\image2.png";
         if (args.length > 1) {
             path1 = args[0];
             path2 = args[1];
