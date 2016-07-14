@@ -10,7 +10,7 @@ import java.util.*;
 
 public class ImageCompare {
     private final float MAX_DIFF_IN_PERCENT = 10.0f;
-    private final int ALLOWABLE_DIFF_IN_PIXEL = 200;
+    private final int ALLOWED_DIFF_IN_PIXEL = 200;
 
     public static void main(String[] args) {
         String path1 = "C:\\imgCompare\\image1.png";
@@ -167,7 +167,7 @@ public class ImageCompare {
      */
     public boolean rectangleNear(Rectangle rec1, Rectangle rec2) {
         if (rec1 == null || rec2 == null) return false;
-        if (Math.abs(rec1.x - rec2.x) < ALLOWABLE_DIFF_IN_PIXEL && Math.abs(rec1.y - rec2.y) < ALLOWABLE_DIFF_IN_PIXEL) { // TODO: take into account height and width
+        if (Math.abs(rec1.x - rec2.x) < ALLOWED_DIFF_IN_PIXEL && Math.abs(rec1.y - rec2.y) < ALLOWED_DIFF_IN_PIXEL) { // TODO: take into account height and width
             return true;
         }
         return false;
@@ -214,7 +214,7 @@ public class ImageCompare {
                 int colorPix1 = img1.getRGB(x, y);
                 int colorPix2 = img2.getRGB(x, y);
                 if (diffInPercent(colorPix1, colorPix2) > MAX_DIFF_IN_PERCENT) {
-                    diffPixels[y][x] = 1; // start different pixels segment
+                    diffPixels[y][x] = 1;
                 }
             }
         }
