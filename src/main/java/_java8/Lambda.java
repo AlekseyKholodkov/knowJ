@@ -21,6 +21,8 @@ public class Lambda {
     }
 
     public Stream<String> filterList(List<String> list, int minLength) {
+        String [] strings = null;
+        Arrays.sort(strings);
         return list.stream().filter(string -> string.length() > minLength);
     }
 }
